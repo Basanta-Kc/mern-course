@@ -51,7 +51,11 @@
     </div>
     <script>
       const todoInputForm = document.getElementById("todo-input-form");
-      const todos = ["Learn php", "learn html", "learn css"];
+      const addOrUpdateTodo = document.getElementById("add-todo");
+      const todoContainer = document.getElementById("todo-container");
+      const searchInputForm = document.getElementById("search-input-form");
+
+      const todos = JSON.parse(localStorage.getItem('todos')) ?? [];
 
       const deleteTodoByIndex = (index) => {
         todos.splice(index, 1);
@@ -59,30 +63,29 @@
 
       const addTodo = (newTodo) => {
         todos.push(newTodo);
+        localStorage.setItem('todos', JSON.stringify(todos))
       };
 
       const updateTodo = (index, updatedTodo) => {
         todos[index] = updatedTodo;
       };
 
-      const readTodo = () => {
+      const readTodo = (todosToRender = todos) => {
         let todoList = "";
-        for (let i = 0; i < todos.length; i++) {
+        for (let i = 0; i < todosToRender.length; i++) {
           todoList += `  
         <li class="list-group-item d-flex justify-content-between align-items-center" data-index="${i}">
-          ${todos[i]}
+          ${todosToRender[i]}
           <span class="badge bg-info me-auto ms-1">In Progress</span>
           <button type="button" class="btn btn-primary me-1">Mark As Completed</button>
           <button type="button" data-action='edit' data-index='${i}' class="btn btn-secondary me-1">Edit</button>
           <button type="button" data-action='delete' data-index='${i}' class="btn btn-danger">Delete</button>
         </li>`;
         }
-        document.getElementById("todo-container").innerHTML = todoList;
+        todoContainer.innerHTML = todoList;
       };
 
-      readTodo();
-
-      document.getElementById("add-todo").addEventListener("click", (e) => {
+      const handleAddAndUpdate = (e) => {
         if (todoInputForm.dataset.index) {
           updateTodo(todoInputForm.dataset.index, todoInputForm.value);
           todoInputForm.dataset.index = null;
@@ -92,22 +95,44 @@
         }
         todoInputForm.value = null;
         readTodo();
-      });
+      };
 
-      document
-        .getElementById("todo-container")
-        .addEventListener("click", (e) => {
-          // actoin = edit, delte, index= ??
-          const action = e.target.dataset.action;
-          const index = e.target.dataset.index;
-          if (action === "delete") {
-            deleteTodoByIndex(index);
-            readTodo();
-          } else if (action === "edit") {
-            todoInputForm.dataset.index = index;
-            todoInputForm.value = todos[index];
-          }
-        });
+      const handleEditAndDelete = (e) => {
+        // const action = e.target.dataset.action;
+        // const index = e.target.dataset.index;
+        const { action, index } = e.target.dataset;
+        if (action === "delete") {
+          deleteTodoByIndex(index);
+          readTodo();
+        } else if (action === "edit") {
+          todoInputForm.dataset.index = index;
+          todoInputForm.value = todos[index];
+        }
+      };
+
+      const handleSearch = (e) => {
+        const searchParams = e.target.value;
+        // const {value: searchParams} = e.target;
+        const filteredTodos = todos.filter((todo) =>
+          todo.toLocaleLowerCase().includes(searchParams)
+        );
+        readTodo(filteredTodos);
+      };
+      // Event Listeners
+      addOrUpdateTodo.addEventListener("click", handleAddAndUpdate);
+      todoContainer.addEventListener("click", handleEditAndDelete);
+      searchInputForm.addEventListener("input", handleSearch);
+
+      // Inital Render of our todos
+      readTodo();
+
+      console.log(localStorage.getItem('todos'))
     </script>
   </body>
 </html>
+
+
+[ 
+{ todo: "learn php", status: "In Progress" },
+ { todo: "learn css", status: "done" }
+  ]

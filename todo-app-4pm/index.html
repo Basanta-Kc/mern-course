@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <title>Todo App</title>
+  </head>
+  <body>
+    <div class="container mt-2">
+      <h1 class="text-center">Todo App</h1>
+
+      <div class="row">
+        <div
+          id="alert-message"
+          class="alert alert-danger"
+          role="alert"
+          style="display: none"
+        >
+          You cannot submit empty value
+        </div>
+        <div class="col-10">
+          <input
+            type="text"
+            id="todo-input-form"
+            class="form-control"
+            placeholder="You New Todo"
+          />
+        </div>
+        <div class="col-2">
+          <button id="add-todo" type="button" class="btn btn-success w-100">
+            Save
+          </button>
+        </div>
+        <div class="col">
+          <input
+            type="search"
+            id="search-input-form"
+            class="form-control mt-2"
+            placeholder="Search Todo"
+          />
+        </div>
+      </div>
+      <ul class="list-group mt-2" id="todo-container"></ul>
+    </div>
+    <script>
+      const todos = ["learn html", "learn css", "learn php"];
+
+      const deleteTodo = (index) => {
+        todos.splice(index, 1);
+      };
+
+      const updateTodo = (index, updatedTodoValue) => {
+        todos[index] = updatedTodoValue;
+      };
+
+      const readTodos = () => {
+        let todoLists = "";
+        todos.forEach((todo, index) => {
+          todoLists += `<li
+          class="list-group-item d-flex justify-content-between align-items-center"
+          data-index="0"
+        >
+            ${todo}
+          <span class="badge bg-info me-auto ms-1">In Progress</span>
+          <button type="button" class="btn btn-primary me-1">
+            Mark As Completed
+          </button>
+          <button type="button" data-index="${index}" data-action="edit" class="btn btn-secondary me-1">Edit</button>
+          <button type="button" data-index="${index}" data-action="delete" class="btn btn-danger">Delete</button>
+        </li>`;
+        });
+        document.getElementById("todo-container").innerHTML = todoLists;
+      };
+
+      const addTodo = (newTodoValue) => {
+        todos.push(newTodoValue);
+        document.getElementById("todo-input-form").value = null;
+      };
+
+      document.getElementById("add-todo").addEventListener("click", (e) => {
+        const todo = document.getElementById("todo-input-form").value;
+
+        if (document.getElementById("add-todo").dataset.index) {
+          updateTodo(document.getElementById("add-todo").dataset.index, todo);
+          document.getElementById("add-todo").innerText = "Save";
+          document.getElementById("add-todo").dataset.index = null;
+          document.getElementById("todo-input-form").value = null;
+        } else {
+          addTodo(todo);
+        }
+        readTodos();
+      });
+
+      document
+        .getElementById("todo-container")
+        .addEventListener("click", (e) => {
+          const { index, action } = e.target.dataset;
+          if (action === "delete") {
+            deleteTodo(index);
+            readTodos();
+          } else if (action === "edit") {
+            document.getElementById("todo-input-form").value = todos[index];
+            document.getElementById("add-todo").innerText = "Update";
+            document.getElementById("add-todo").dataset.index = index;
+          }
+        });
+
+      //   document.getElementById('todo-container').innerHTML = `
+      //     <li
+      //       class="list-group-item d-flex justify-content-between align-items-center"
+      //       data-index="1"
+      //     >
+      //       Learn Mern
+      //       <span class="badge bg-info me-auto ms-1">In Progress</span>
+      //       <button type="button" class="btn btn-primary me-1">
+      //         Mark As Completed
+      //       </button>
+      //       <button type="button" class="btn btn-secondary me-1">Edit</button>
+      //       <button type="button" class="btn btn-danger">Delete</button>
+      //     </li>`
+
+      //   addTodo('learn go')
+      //   updateTodo(0, 'learn mern')
+      //   deleteTodo(2)
+      readTodos();
+    </script>
+  </body>
+</html>

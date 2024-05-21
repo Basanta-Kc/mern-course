@@ -111,4 +111,30 @@ console.log(sum);
 //     return prev + curr
 // }, 20)
 
-// console.log(sum);
+// Store key/value pairs
+localStorage.setItem('name', 'Basanta');
+
+localStorage.removeItem('name')
+document.getElementById("h1").innerText = localStorage.getItem("name");
+// localStorage.setItem('age', '30');
+// localStorage.setItem('(city', 'ktm');
+
+// // Get the value by key
+// console.log(localStorage.getItem('name')); // Output: John
+// console.log(localStorage.getItem('age'));  // Output: 30
+
+// // Remove the key with its value
+// localStorage.removeItem('city');
+
+// // Check the number of stored items
+// console.log(localStorage.length); // Output: 2
+
+// // Get the key on a given position
+// console.log(localStorage.key(0)); // Output: name
+// console.log(localStorage.key(1)); // Output: age
+
+// // Clear all key/value pairs
+// localStorage.clear();
+
+// // Check the number of stored items after clearing
+// console.log(localStorage.length); // Output: 0

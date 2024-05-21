@@ -55,19 +55,25 @@
       const todoContainer = document.getElementById("todo-container");
       const searchInputForm = document.getElementById("search-input-form");
 
-      const todos = JSON.parse(localStorage.getItem('todos')) ?? [];
+      const todos = JSON.parse(localStorage.getItem("todos")) ?? [];
+
+      const setTodoInLocalStorage = () => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+      };
 
       const deleteTodoByIndex = (index) => {
         todos.splice(index, 1);
+        setTodoInLocalStorage();
       };
 
       const addTodo = (newTodo) => {
         todos.push(newTodo);
-        localStorage.setItem('todos', JSON.stringify(todos))
+        setTodoInLocalStorage();
       };
 
       const updateTodo = (index, updatedTodo) => {
         todos[index] = updatedTodo;
+        setTodoInLocalStorage();
       };
 
       const readTodo = (todosToRender = todos) => {
@@ -126,13 +132,7 @@
       // Inital Render of our todos
       readTodo();
 
-      console.log(localStorage.getItem('todos'))
+      console.log(localStorage.getItem("todos"));
     </script>
   </body>
 </html>
-
-
-[ 
-{ todo: "learn php", status: "In Progress" },
- { todo: "learn css", status: "done" }
-  ]

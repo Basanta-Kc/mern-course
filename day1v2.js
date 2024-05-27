@@ -38,24 +38,9 @@
 // console.log(b); // 0, 1
 // let a;
 
-let stringValue = 1 + 1 + "1" + "2" + 2;
-console.log(typeof stringValue);
+// 1. create an array to store todos eg [learnphp, learn css, learn html]
+// 2. CRUD operation on todos array, addTodo, updateTodo, createTodo, deleteTodo
+// 3. Make sure all these work fine
+// 4. show the todo list in list using eg. <li> learn php </li> 
 
-console.log(typeof +stringValue)
-
-const salary = "2000"
-+
-console.log(Boolean([]))
-
-function add(){
-   
-        var a=10;
-        let b = 20;
-
-
-
-    
-
-
-}
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DOM Introduction</title>
+  </head>
+  <body>
+    <h1 id="title">Hello, World!</h1>
+    <p>This is a simple example.</p>
+    <p class="paragraph"></p>
+    <p class="paragraph"></p>
+    <form method="" action="test.html">
+      <input type="number" name="first"  />
+      <input type="submit" value="login" />
+    </form>
+    <script>
+      const form = document.querySelector("form");
+      console.log(form);
+        form.addEventListener("submit", (event) => {
+          event.preventDefault(); // Prevent the form from submitting
+          const input = document.querySelector("input");
+          console.log(typeof input.valueAsNumber)
+          console.log(`Form submitted with value: ${input.value}`);
+        });
+    </script>
+  </body>
+</html>
+form , hot key (a => add), error mesage
+

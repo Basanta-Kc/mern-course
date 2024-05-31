@@ -10,5 +10,11 @@
       <input type="text" name="todo" id="todo" />
       <input type="submit" name="submit" />
     </form>
+
+    <ul>
+      <% todos.forEach((todo) => { %>
+      <li><%= todo %></li>
+      <% }) %>
+    </ul>
   </body>
 </html>

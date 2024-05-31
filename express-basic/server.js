@@ -5,13 +5,16 @@ const port = 3000;
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 
+const todos = [];
+
 app.get("/", (req, res) => {
-  res.render("index");
+  console.log(todos);
+  res.render("index", { todos });
 });
 
 app.post("/todo", (req, res) => {
-  console.log(req.body.todo);
-  res.send("ok");
+  todos.push(req.body.todo);
+  res.redirect("/");
 });
 
 // app.get("/login", (req, res) => {

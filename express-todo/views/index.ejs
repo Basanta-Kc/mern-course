@@ -16,6 +16,9 @@
       <form action="/todo/delete/<%= index %>" method="post">
         <button type="submit">delete</button>
       </form>
+       <form action="/todo/edit/<%= index %>" method="get">
+        <button type="submit">Update</button>
+      </form>
     </li>
     <% }) %>
   </body>

@@ -20,6 +20,19 @@ app.post("/todo/delete/:index", (req, res) => {
   res.redirect("/");
 });
 
+app.get("/todo/edit/:index", (req, res) => {
+  const index = req.params.index;
+  res.render("edit", {
+    index,
+    todo: todos[index],
+  });
+});
+
+app.post("/todo/edit/:index", (req, res) => {
+  todos[req.params.index] = req.body.todo;
+  res.redirect("/");
+});
+
 app.get("/:username", (req, res) => {
   res.send(req.params.username + " " + req.query.value);
 });

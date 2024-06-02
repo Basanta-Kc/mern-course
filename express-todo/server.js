@@ -7,16 +7,16 @@ app.use(express.urlencoded({ extended: false }));
 const todos = [];
 
 app.get("/", (req, res) => {
-  console.log(req.query.search);
   if (req.query.search) {
     const filteredTodos = todos.filter((todo) =>
       todo.includes(req.query.search)
     );
     res.render("index", {
       todos: filteredTodos,
+      search: req.query.search,
     });
   }
-  res.render("index", { todos });
+  res.render("index", { todos, search: null });
 });
 
 app.post("/todo", (req, res) => {

@@ -11,7 +11,7 @@
       <input type="submit" value="add" />
     </form>
     <form action="/" method="get">
-      <input type="text" name="search" />
+      <input type="text" name="search" value="<%= search ?? '' %>" />
       <input type="submit" value="search" />
     </form>
     <% todos.forEach((todo, index) => { %>
@@ -20,7 +20,7 @@
       <form action="/todo/delete/<%= index %>" method="post">
         <button type="submit">delete</button>
       </form>
-       <form action="/todo/edit/<%= index %>" method="get">
+      <form action="/todo/edit/<%= index %>" method="get">
         <button type="submit">Update</button>
       </form>
     </li>

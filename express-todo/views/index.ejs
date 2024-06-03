@@ -10,17 +10,13 @@
       <input type="text" name="todo" />
       <input type="submit" value="add" />
     </form>
-    <form action="/" method="get">
-      <input type="text" name="search" value="<%= search ?? '' %>" />
-      <input type="submit" value="search" />
-    </form>
-    <% todos.forEach((todo, index) => { %>
+    <% todos.forEach((todo) => { %>
     <li>
-      <%= todo %>
-      <form action="/todo/delete/<%= index %>" method="post">
+      <%= todo.title %>
+      <form action="/todo/delete/<%= todo._id %>" method="post">
         <button type="submit">delete</button>
       </form>
-      <form action="/todo/edit/<%= index %>" method="get">
+      <form action="/todo/edit/<%= todo._id %>" method="get">
         <button type="submit">Update</button>
       </form>
     </li>

@@ -6,11 +6,9 @@
     <title>Document</title>
   </head>
   <body>
-    <form action="/todo/edit/<%= index %>" method="post">
-      <input type="text" name="todo" value="<%= todo %>" />
+    <form action="/todo/edit/<%= todo._id %>" method="post">
+      <input type="text" name="todo" value="<%= todo.title %>" />
       <input type="submit" value="Update" />
     </form>
-
-
   </body>
 </html>

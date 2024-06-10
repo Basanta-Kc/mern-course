@@ -1,6 +1,21 @@
 const Todo = require("../models/Todo");
+const jwt = require("jsonwebtoken")
+const { secretKey } = require("./auth.controller");
 
 const getTodos = async (req, res) => {
+  const { token } = req.headers;
+
+  try {
+    const decoded = jwt.verify(token, secretKey);
+    console.log(decoded);
+  } catch (err) {
+    console.log(err)
+    res.status(401).json({
+      message: "Unauthorized",
+    });
+    return;
+  }
+
   const todos = await Todo.find();
   res.json({
     data: todos,

@@ -7,11 +7,16 @@ const {
   deleteTodo,
   createTodo,
 } = require("../controllers/todo.controller");
+const authenticate = require("../middleware/authenticate.middleware");
 
-router.get("/", getTodos);
-router.get("/:id", getTodo);
-router.post("/", createTodo);
-router.delete("/:id", deleteTodo);
-router.patch("/:id", updateTodo);
+router.get(
+  "/",
+  authenticate,
+  getTodos
+);
+router.get("/:id", authenticate, getTodo);
+router.post("/", authenticate, createTodo);
+router.delete("/:id", authenticate, deleteTodo);
+router.patch("/:id", authenticate, updateTodo);
 
 module.exports = router;

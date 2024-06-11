@@ -4,3 +4,7 @@
 
 /api/todos (get) ( attach {token}) (which user? is token expired? )
 /api/todos (post)
+
+
+<!-- /api/todos/edity
+=> gate (authenticate) => gate 2(admin) => gate 3 (edit-action)=> lift (check) => room (edit function) -->

@@ -1,25 +1,14 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const { signUpService } = require("../services/auth.services.js");
 
 // Secret key for signing the token
 const secretKey = "WIolrgLYgeOX8YfrFENHVEd3jWbasMAC";
 
 const signUp = async (req, res) => {
-  let { firstName, lastName, email, password } = req.body;
+  await signUpService(req.body);
 
-  const userExist = await User.findOne({ email });
-
-  if (userExist) {
-    res.status(409).json({
-      message: "You have already signed up. Please login.",
-    });
-    return;
-  }
-
-  const salt = bcrypt.genSaltSync(10);
-  const hashedPassword = bcrypt.hashSync(password, salt);
-  await User.create({ firstName, lastName, email, password: hashedPassword });
   res.json({
     message: "User successfully signed up.",
   });
@@ -30,16 +19,17 @@ const signIn = async (req, res) => {
 
   const user = await User.findOne({ email });
   if (!user) {
-    res.json({
+    res.status(400).json({
       message: "Invalid credentials.",
     });
     return;
   }
 
+  // plain password, hashed password
   const validPassword = bcrypt.compareSync(password, user.password);
 
   if (!validPassword) {
-    res.json({
+    res.staus(400).json({
       message: "Invalid credentials.",
     });
     return;

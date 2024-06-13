@@ -1,7 +1,7 @@
 const Todo = require("../models/Todo");
 
 const getTodos = async (req, res) => {
-  const todos = await Todo.find();
+  const todos = await Todo.find({ user: req.user.id });
   res.json({
     data: todos,
   });
@@ -9,7 +9,8 @@ const getTodos = async (req, res) => {
 
 const getTodo = async (req, res) => {
   const { id: _id } = req.params;
-  const todo = await Todo.findOne({ _id });
+  const { id: user } = req.user;
+  const todo = await Todo.findOne({ _id, user });
   res.json({
     data: todo,
   });
@@ -25,7 +26,9 @@ const createTodo = async (req, res) => {
 
 const deleteTodo = async (req, res) => {
   const { id: _id } = req.params;
-  await Todo.deleteOne({ _id });
+  const { id: user } = req.user;
+
+  await Todo.deleteOne({ _id, user });
   res.json({
     message: "Todo deleted successfully.",
   });
@@ -34,7 +37,9 @@ const deleteTodo = async (req, res) => {
 const updateTodo = async (req, res) => {
   const { title } = req.body;
   const { id: _id } = req.params;
-  await Todo.updateOne({ _id }, { title });
+  const { id: user } = req.user;
+
+  await Todo.updateOne({ _id, user }, { title });
   res.json({
     message: "Todo edited successfully",
   });

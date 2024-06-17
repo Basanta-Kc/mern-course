@@ -1,3 +1,4 @@
+const NotFoundError = require("../errors/not-found.error");
 const Todo = require("../models/Todo");
 
 const getTodos = async (req, res) => {
@@ -11,6 +12,7 @@ const getTodo = async (req, res) => {
   const { id: _id } = req.params;
   const { id: user } = req.user;
   const todo = await Todo.findOne({ _id, user });
+  if (!todo) throw new NotFoundError("Todo not found.");
   res.json({
     data: todo,
   });

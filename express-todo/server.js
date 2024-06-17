@@ -4,8 +4,8 @@ const connectDb = require("./config/db");
 const todoRoutes = require("./routes/todo.route");
 const todoViewRoutes = require("./routes/todo.view.route");
 const authRoutes = require("./routes/auth.route");
-// const NotFoundError = require("./errors/not-found.error");
-// const CustomError = require("./errors/custom.error");
+const NotFoundError = require("./errors/not-found.error");
+const CustomError = require("./errors/custom.error");
 
 const app = express();
 
@@ -21,15 +21,13 @@ app.use("/view/todo", todoViewRoutes);
 app.use("/api/auth", authRoutes);
 
 app.all("*", (req, res) => {
-  res.status(404).json({
-    message: "Not Found",
-  });
+  throw new NotFoundError("Route not found.");
 });
 
 app.use((err, req, res, next) => {
-  if (err.message === "ALREADY_SIGNED_IN") {
-    res.status(409).json({
-      message: "You have already signed up. Please login.",
+  if (err instanceof CustomError) {
+    res.status(err.statusCode).json({
+      messages: err.serializeErrors(),
     });
     return;
   }

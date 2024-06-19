@@ -32,6 +32,7 @@ const signIn = async (req, res) => {
     expiresIn: "1d",
   });
 
+  token.value
   res.json({
     message: "User successfully signed in.",
     token,

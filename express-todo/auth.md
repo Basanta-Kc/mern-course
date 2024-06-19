@@ -8,3 +8,5 @@
 
 <!-- /api/todos/edity
 => gate (authenticate) => gate 2(admin) => gate 3 (edit-action)=> lift (check) => room (edit function) -->
+
+// Remaing For basic express: file upload, request validation, pagination api.

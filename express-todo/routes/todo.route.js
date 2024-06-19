@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { body, validationResult } = require("express-validator");
 const {
   getTodo,
   getTodos,
@@ -8,14 +9,17 @@ const {
   createTodo,
 } = require("../controllers/todo.controller");
 const authenticate = require("../middleware/authenticate.middleware");
+const validate = require("../middleware/validate.middleware");
 
-router.get(
+router.get("/", authenticate, getTodos);
+router.get("/:id", authenticate, getTodo);
+router.post(
   "/",
   authenticate,
-  getTodos
+  body("title").notEmpty(),
+  validate,
+  createTodo
 );
-router.get("/:id", authenticate, getTodo);
-router.post("/", authenticate, createTodo);
 router.delete("/:id", authenticate, deleteTodo);
 router.patch("/:id", authenticate, updateTodo);
 

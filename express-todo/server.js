@@ -1,5 +1,6 @@
 const express = require("express");
 require("express-async-errors");
+const { query, validationResult } = require("express-validator");
 const connectDb = require("./config/db");
 const todoRoutes = require("./routes/todo.route");
 const todoViewRoutes = require("./routes/todo.view.route");
@@ -16,6 +17,16 @@ app.use(express.urlencoded({ extended: false }));
 
 connectDb();
 
+app.get("/test", query("search").notEmpty(), (req, res) => {
+  const result = validationResult(req);
+  if(!result.isEmpty()){
+    res.status(400).json(result.array())
+    return;
+  }
+  const search = req.query.search;
+  res.status(200).send({ search });
+});
+
 app.use("/api/todos", todoRoutes);
 app.use("/view/todo", todoViewRoutes);
 app.use("/api/auth", authRoutes);
@@ -27,7 +38,7 @@ app.all("*", (req, res) => {
 app.use((err, req, res, next) => {
   if (err instanceof CustomError) {
     res.status(err.statusCode).json({
-      messages: err.serializeErrors(),
+      errors: err.serializeErrors(),
     });
     return;
   }

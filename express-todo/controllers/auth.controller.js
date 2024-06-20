@@ -1,14 +1,12 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const { signUpService } = require("../services/auth.services.js");
+const authService = require("../services/auth.services.js");
 const UnAuthorizedError = require("../errors/un-authorized.js");
 
 // Secret key for signing the token
-const secretKey = "WIolrgLYgeOX8YfrFENHVEd3jWbasMAC";
-
 const signUp = async (req, res) => {
-  await signUpService(req.body);
+  await authService.signUp(req.body);
   res.json({
     message: "User successfully signed up.",
   });
@@ -32,7 +30,7 @@ const signIn = async (req, res) => {
     expiresIn: "1d",
   });
 
-  token.value
+  token.value;
   res.json({
     message: "User successfully signed in.",
     token,
@@ -42,5 +40,4 @@ const signIn = async (req, res) => {
 module.exports = {
   signIn,
   signUp,
-  secretKey,
 };

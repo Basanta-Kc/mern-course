@@ -1,11 +1,12 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
-const signUpService = async ({ firstName, lastName, email, password }) => {
+const signUp = async ({ firstName, lastName, email, password }) => {
   const userExist = await User.findOne({ email });
 
+  // Create custom error calass and use that,
   if (userExist) {
-    throw new Error("ALREADY_SIGNED_IN");
+    throw new Error("ALREADY_SIGNED_IN"); // 409
   }
 
   const salt = bcrypt.genSaltSync(10);
@@ -19,5 +20,5 @@ const signUpService = async ({ firstName, lastName, email, password }) => {
 };
 
 module.exports = {
-  signUpService,
+  signUp,
 };

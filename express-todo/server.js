@@ -7,7 +7,7 @@ const todoViewRoutes = require("./routes/todo.view.route");
 const authRoutes = require("./routes/auth.route");
 const NotFoundError = require("./errors/not-found.error");
 const CustomError = require("./errors/custom.error");
-
+const path = require("path");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -15,12 +15,16 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// console.log({ __dirname }, process.env.test);
+
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 connectDb();
 
 app.get("/test", query("search").notEmpty(), (req, res) => {
   const result = validationResult(req);
-  if(!result.isEmpty()){
-    res.status(400).json(result.array())
+  if (!result.isEmpty()) {
+    res.status(400).json(result.array());
     return;
   }
   const search = req.query.search;

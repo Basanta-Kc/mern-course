@@ -20,7 +20,8 @@ const getTodo = async (req, res) => {
 
 const createTodo = async (req, res) => {
   const { title } = req.body;
-  await Todo.create({ title, user: req.user.id });
+  console.log(req.file);
+  await Todo.create({ title, user: req.user.id, image: req.file.path });
   res.json({
     message: "Todo successfully added.",
   });

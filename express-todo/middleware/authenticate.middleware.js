@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { secretKey } = require("../controllers/auth.controller");
+const { secretKey } = require("../config/constants");
 const UnAuthorizedError = require("../errors/un-authorized");
 
 const authenticate = (req, res, next) => {

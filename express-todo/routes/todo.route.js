@@ -10,12 +10,14 @@ const {
 } = require("../controllers/todo.controller");
 const authenticate = require("../middleware/authenticate.middleware");
 const validate = require("../middleware/validate.middleware");
+const upload = require("../config/multer");
 
 router.get("/", authenticate, getTodos);
 router.get("/:id", authenticate, getTodo);
 router.post(
   "/",
   authenticate,
+  upload.single("image"),
   body("title").notEmpty(),
   validate,
   createTodo

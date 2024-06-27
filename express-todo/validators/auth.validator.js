@@ -3,15 +3,15 @@ const validate = require("../middleware/validate.middleware");
 
 const signUp = [
   body("email").isEmail().withMessage("Invalid email"),
-  body("password").isStrongPassword(),
-  body("firstname").isString({ min: 3 }),
-  body("lastname").isString({ min: 5 }),
+  body("password").isString(),
+  body("firstName").isString({ min: 3 }),
+  body("lastName").isString({ min: 5 }),
   validate,
 ];
 
 const signIn = [
   body("email").isEmail().withMessage("Invalid email"),
-  body("password").isStrongPassword(),
+  body("password").isString(),
   validate,
 ];
 

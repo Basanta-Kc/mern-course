@@ -32,6 +32,7 @@ function App() {
   // const todos = [leanrhtm, learn css, learn php]
   const [todos, setTodos] = useState(["learn html", "learn css", "learn php"]); // [['learn html', 'learn css', 'learn php'], () => {}]
   const [todo, setTodo] = useState("");
+  // Try to use only one state
   const [isEditing, setIsEditing] = useState(false);
   const [indexToBeEditied, setIndexToBeEdited] = useState(null);
 

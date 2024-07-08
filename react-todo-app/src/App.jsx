@@ -1,110 +1,49 @@
 import "./App.css";
-import { useState } from "react";
 
-// const arr = [1,2]
-// const [firstnum, secondnum] = arr;
+function Button() {
+  return (
+    <div>
+      <button>test</button>
+      <button>another test</button>
+    </div>
+  );
+}
 
-// function test(){
-//   return [1,2]
-// }
+function AdminPanel() {
+  return <h2>Admin Panel</h2>;
+}
 
-// const [first, second] = test()
+function UserPanel() {
+  return <h2>User Panel</h2>;
+}
+// const h1Style = {
+//   color: "blue",
+// };
 
-// function useState(todos){
-//   return [todos, setTodos]
-// }
-
-// const arr = []
-// const arr2 = arr
-
-// const num = [1,2,3]
-// const num2 = [1,2,3]
-
-// const nums = [1,2,3,4]
-// const num2 = [...nums] // 1,2,34
-// const anotherNums = [...nums, 5,6,5] //
-// const isEditing = false;
-
-// isEditing = true;
-// [1,2,3,4,5,6,5]
+const user = {
+  name: "basnata",
+  age: 10,
+  imgUrl: "https://plus.unsplash.com/premium_photo-1683121366070-5ceb7e007a97",
+  roles: ['user', 'admin']
+};
 
 function App() {
-  // const todos = [leanrhtm, learn css, learn php]
-  const [todos, setTodos] = useState(["learn html", "learn css", "learn php"]); // [['learn html', 'learn css', 'learn php'], () => {}]
-  const [todo, setTodo] = useState("");
-  // Try to use only one state
-  const [isEditing, setIsEditing] = useState(false);
-  const [indexToBeEditied, setIndexToBeEdited] = useState(null);
-
-  const handleDelete = (index) => {
-    todos.splice(index, 1);
-    setTodos([...todos]);
-  };
-
   return (
     <>
-      <h1>Todo app</h1>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (isEditing) {
-            todos[indexToBeEditied] = todo;
-            setTodos([...todos]);
-          } else {
-            setTodos([...todos, todo]);
-          }
+      <h1 style={{ color: "red" }} className="main-heading">
+        Hello {`${user.name} ${user.age}`}
+      </h1>
 
-          setTodo("");
-          setIsEditing(false);
-          setIndexToBeEdited(null);
-        }}
-      >
-        <input
-          type="text"
-          name="todo"
-          placeholder="new todo"
-          value={todo}
-          onChange={(e) => {
-            setTodo(e.target.value);
-          }}
-        />
-        <input type="submit" value={isEditing ? "Update" : "Add"} />
-      </form>
-      <ul>
-        {todos.map((todo, index) => {
-          return (
-            <li key={index}>
-              {todo}{" "}
-              <button
-                onClick={() => {
-                  handleDelete(index);
-                }}
-              >
-                delete
-              </button>
-              <button
-                onClick={() => {
-                  setIndexToBeEdited(index);
-                  setIsEditing(true);
-                  setTodo(todos[index]);
-                }}
-              >
-                Edit
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      <img src={user.imgUrl} width="100px" />
+      {user.isAdmin ? <AdminPanel /> : <UserPanel />}
+
+      <Button />
+      <Button />
+      <Button />
+      <Button />
     </>
   );
 }
 
 export default App;
 
-// todo App
-
-// learn html
-// learn ccaa
-
-const todos = ["learn html", "learn css", "learn php"];
-todos.splice(1, 1);

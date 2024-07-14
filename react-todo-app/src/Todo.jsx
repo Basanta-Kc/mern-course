@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // const arr = [1,2]
 // const [firstnum, secondnum] = arr;
@@ -30,7 +30,7 @@ import { useState } from "react";
 
 function Todo() {
   // const todos = [leanrhtm, learn css, learn php]
-  const [todos, setTodos] = useState(["learn html", "learn css", "learn php"]); // [['learn html', 'learn css', 'learn php'], () => {}]
+  const [todos, setTodos] = useState([]); // [['learn html', 'learn css', 'learn php'], () => {}]
   const [todo, setTodo] = useState("");
   // Try to use only one state
   const [isEditing, setIsEditing] = useState(false);
@@ -49,7 +49,7 @@ function Todo() {
           e.preventDefault();
           if (isEditing) {
             todos[indexToBeEditied] = todo;
-            setTodos([...todos]);
+            setTodos([...todos]); // setTodod(todos)
           } else {
             setTodos([...todos, todo]);
           }
@@ -71,7 +71,7 @@ function Todo() {
         <input type="submit" value={isEditing ? "Update" : "Add"} />
       </form>
       <ul>
-        {todos.map((todo, index) => {
+        {todos?.map((todo, index) => {
           return (
             <li key={index}>
               {todo}{" "}

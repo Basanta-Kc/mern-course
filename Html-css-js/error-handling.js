@@ -7,9 +7,9 @@ class CustomError extends Error {
 
 try {
   const age = 10;
-  adfdf;
+  adfdf; //Error
   if (age < 18) {
-    throw new CustomError("Your age must be 18");
+    throw new CustomError("Your age must be 18"); // Error
   } else {
     console.log("you can enter");
   }

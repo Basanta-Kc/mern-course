@@ -1,33 +1,6 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-
-export function useQuery(dependencyList, apiCall) {
-  const [data, setData] = useState(null);
-  const [status, setStatus] = useState("idle");
-  const [errorMssg, setErrorMssg] = useState(""); // useState({data: null, status: idle, errorMssg: null})
-  useEffect(() => {
-    if(dependencyList[0]?.length === 0) return ;
-    setStatus("loading");
-    fetch(apiCall)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log({ data });
-        if (data.error) {
-          throw new Error(data.error.message);
-        }
-        setData(data);
-        setStatus("success");
-      })
-      .catch((error) => {
-        setStatus("error");
-        setErrorMssg(error.message);
-      });
-  }, dependencyList);
-
-  return { data, errorMssg, status };
-}
+import { useState } from "react";
+import { useQuery } from "./hooks/useQuery";
 
 function Weather() {
   const [location, setLocation] = useState("");

@@ -17,11 +17,6 @@ const AnotherChild = React.memo(({ text }) => {
   return <div>{text}</div>;
 });
 
-const add = (a, b) => a + b;
-const add2 = (a, b) => a + b;
-
-add === add2;
-
 const App = () => {
   const [count, setCount] = useState(0);
   const [text, setText] = useState("");
@@ -30,9 +25,12 @@ const App = () => {
     setCount((prevCount) => prevCount + 1);
   };
 
-  const handleTextChange = useCallback((e) => {
-    setText(e.target.value + count);
-  }, [count]);
+  const handleTextChange = useCallback(
+    (e) => {
+      setText(e.target.value + count);
+    },
+    [count]
+  );
 
   return (
     <div>

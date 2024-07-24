@@ -5,7 +5,6 @@ const authService = require("../services/auth.services.js");
 const UnAuthorizedError = require("../errors/un-authorized.js");
 const { secretKey } = require("../config/constants.js");
 
-
 // Secret key for signing the token
 const signUp = async (req, res) => {
   await authService.signUp(req.body);
@@ -32,10 +31,12 @@ const signIn = async (req, res) => {
     expiresIn: "10d",
   });
 
-  token.value;
+  // res.cookie("token", token, {
+  //   httpOnly: true,
+  // });
   res.json({
     message: "User successfully signed in.",
-    token,
+    user,
   });
 };
 

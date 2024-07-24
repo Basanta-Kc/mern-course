@@ -1,45 +1,36 @@
-/* eslint-disable react/display-name */
-import React, { useState, useCallback } from "react";
-
-const Child = React.memo(({ text, onTextChange }) => {
-  console.log("Child rendered");
-
-  return (
-    <div>
-      <input type="text" value={text} onChange={onTextChange} />
-    </div>
-  );
-});
-
-const AnotherChild = React.memo(({ text }) => {
-  console.log("Another Child rendered");
-
-  return <div>{text}</div>;
-});
-
-const add = (a, b) => a + b;
-const add2 = (a, b) => a + b;
-
-add === add2;
+import { useState, useMemo } from "react";
 
 const App = () => {
+  console.log("Rendered");
   const [count, setCount] = useState(0);
-  const [text, setText] = useState("");
+  const [input, setInput] = useState("");
 
   const increment = () => {
     setCount((prevCount) => prevCount + 1);
   };
 
-  const handleTextChange = useCallback((e) => {
-    setText(e.target.value + count);
+  const factorial = useMemo(() => {
+    const calculateFactorial = (n) => {
+      console.log("calculated");
+      if (n <= 1) return 1;
+      return n * calculateFactorial(n - 1);
+    };
+
+    return calculateFactorial(count);
   }, [count]);
 
   return (
     <div>
-      <h1>useCallback Example</h1>
+      <h1>useMemo Example</h1>
       <button onClick={increment}>Count: {count}</button>
-      <Child text={text} onTextChange={handleTextChange} />
-      <AnotherChild text={text} />
+      <p>
+        Factorial of {count} is {factorial}
+      </p>
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
     </div>
   );
 };

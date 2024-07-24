@@ -1,3 +1,4 @@
+const ConflictError = require("../errors/conflict.error");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
@@ -6,7 +7,7 @@ const signUp = async ({ firstName, lastName, email, password }) => {
 
   // Create custom error calass and use that,
   if (userExist) {
-    throw new Error("ALREADY_SIGNED_IN"); // 409
+    throw new ConflictError("User already exist. Please sigin."); // 409
   }
 
   const salt = bcrypt.genSaltSync(10);

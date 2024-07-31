@@ -3,7 +3,7 @@ const { secretKey } = require("../config/constants");
 const UnAuthorizedError = require("../errors/un-authorized");
 
 const adminAuth = (req, res, next) => {
-  const token = req.headers.cookie.replace("token=", "");
+  const token = req.headers.cookie.replace("token=", ""); // req.cookies.token
 
   try {
     const { id, email, roles } = jwt.verify(token, secretKey);

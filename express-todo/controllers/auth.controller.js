@@ -27,13 +27,18 @@ const signIn = async (req, res) => {
     throw new UnAuthorizedError("Invalid Credentials.");
   }
 
-  const token = jwt.sign({ id: user._id, email: user.email }, secretKey, {
-    expiresIn: "10d",
+  const token = jwt.sign(
+    { id: user._id, email: user.email, roles: user.roles },
+    secretKey,
+    {
+      expiresIn: "10d",
+    }
+  );
+
+  res.cookie("token", token, {
+    httpOnly: true,
   });
 
-  // res.cookie("token", token, {
-  //   httpOnly: true,
-  // });
   res.json({
     message: "User successfully signed in.",
     user,

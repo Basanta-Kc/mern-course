@@ -5,6 +5,7 @@ const connectDb = require("./config/db");
 const todoRoutes = require("./routes/todo.route");
 const todoViewRoutes = require("./routes/todo.view.route");
 const authRoutes = require("./routes/auth.route");
+const adminRoutes = require("./routes/admin.route");
 const NotFoundError = require("./errors/not-found.error");
 const CustomError = require("./errors/custom.error");
 const app = express();
@@ -47,6 +48,7 @@ app.get("/test", query("search").notEmpty(), (req, res) => {
 app.use("/api/todos", todoRoutes);
 app.use("/view/todo", todoViewRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes)
 
 app.all("*", (req, res) => {
   throw new NotFoundError("Route not found.");

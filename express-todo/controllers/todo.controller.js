@@ -16,7 +16,7 @@ const getTodos = async (req, res) => {
 
   const todos = await Todo.find(filter)
     .sort({
-      [sortBy]: sortOrder,
+      [sortBy]: sortOrder, // { price: asc} //{ createdAt: desc}
     })
     .limit(limit)
     .skip((page - 1) * limit);

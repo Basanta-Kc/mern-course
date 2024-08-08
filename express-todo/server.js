@@ -9,9 +9,11 @@ const adminRoutes = require("./routes/admin.route");
 const homeRoutes = require("./routes/home.route");
 const NotFoundError = require("./errors/not-found.error");
 const CustomError = require("./errors/custom.error");
+const Order = require("./models/Order");
 const path = require("path");
 const app = express();
 const cors = require("cors");
+const authenticate = require("./middleware/authenticate.middleware");
 
 const stripe = require("stripe")(
   "sk_test_51M2ALFFEon6AQRRqZGoTHmXZFVSKoxQVoFRYpjpHMNeZ7CuWF2i2MEuVXCLDRGceLSR9Fh1tjLQp5aUK76gEHyX100Oz1EleVm"
@@ -60,20 +62,16 @@ app.post(
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object;
+        console.log(session);
         const orderId = session.metadata.orderId;
-
-        console.log("scue");
-        // Update the order status to 'completed'
-        // await Order.findByIdAndUpdate(orderId, { status: "completed" });
+        await Order.findByIdAndUpdate(orderId, { status: "completed" });
         break;
       }
 
       case "checkout.session.expired": {
         const session = event.data.object;
         const orderId = session.metadata.orderId;
-        console.log("cancel");
-        // Update the order status to 'cancelled'
-        // await Order.findByIdAndUpdate(orderId, { status: "cancelled" });
+        await Order.findByIdAndUpdate(orderId, { status: "cancelled" });
         break;
       }
 
@@ -93,8 +91,18 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/home", homeRoutes);
 
 // when clicked on proceed to payment
-app.post("/api/checkout", async (req, res) => {
-  const products = req.body; // [{_id: 123, name: watch, orderQuanity: 2, price: 100 }]
+app.post("/api/checkout", authenticate, async (req, res) => {
+  const products = req.body;
+  const order = new Order({
+    userId: req.user.id,
+    totalAmount: products.reduce((acc, curr) => {
+      return acc + curr.price * curr.orderQuantity;
+    }, 0),
+    products,
+  });
+
+  const savedOrder = await order.save();
+
   let lineItems = [];
   for (const item of products) {
     const price = await stripe.prices.create({
@@ -111,6 +119,8 @@ app.post("/api/checkout", async (req, res) => {
     });
   }
 
+  console.log(savedOrder._id);
+
   // insert into order table with status (pending)
 
   const session = await stripe.checkout.sessions.create({
@@ -118,6 +128,9 @@ app.post("/api/checkout", async (req, res) => {
     mode: "payment",
     success_url: "http://localhost:5173/success",
     cancel_url: "http://localhost:5173/cancel",
+    metadata: {
+      orderId: savedOrder._id.toString(),
+    },
   });
 
   res.json({
@@ -142,7 +155,6 @@ app.use((err, req, res, next) => {
     message: "Internal Server Error.",
   });
 });
-
 
 app.listen(3000, () => {
   console.log("Server Started on Port 3000");

@@ -147,6 +147,43 @@
 //       const arr = [] // new Array()
 // console.log(arr)
     </script> -->
-    <script src="promises.js"></script>
+    <!-- <script src="promises.js"></script> -->
+    <script>
+      let b = 10;
+      function add() {
+        let a = 10;
+      }
+
+      add();
+
+      function test() {
+        let count = 0;
+        return () => {
+          count++;
+          console.log(count);
+          return count;
+        };
+      }
+
+      // function useState(initialValue) {
+      //   const value = initalValue;
+
+      //   const setValue = (newValue) => {
+      //     value = newValue;
+      //   };
+
+      //   return [value, setValue];
+      // }
+
+      // const [value, setValue] = useState(0);
+
+      // setValue(0)
+
+      const returnedFunc = test();
+      returnedFunc();
+      returnedFunc();
+      const anotherReturnedFunc = test();
+      anotherReturnedFunc();
+    </script>
   </body>
 </html>
